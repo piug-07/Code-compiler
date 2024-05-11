@@ -1,42 +1,74 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import moment from "moment";
+import axios from "axios";
 import "./app.css";
 
 function App() {
-  const [code, setCode] = useState('')
+  const [code, setCode] = useState("");
+  const [output, setOutput] = useState("");
+  const [language, setLanguage] = useState("cpp");
+  const [jobId, setJobId] = useState(null);
+  const [status, setStatus] = useState(null);
+  const [jobDetails, setJobDetails] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(code)
-  }
+    const payload = {
+      language,
+      code,
+    };
+    try {
+      const { data } = await axios.post("http://localhost:5000/run", payload);
+      setOutput(data.output);
+      console.log(data);
+    } catch ({ response }) {
+      if (response) {
+        const errMsg = response.data.error.stderr;
+        setOutput(errMsg);
+      } else {
+        setOutput("Please retry submitting.");
+      }
+    }
+  };
 
+  const setDefaultLanguage = () => {
+    localStorage.setItem("default-language", language);
+    console.log(`${language} set as default!`);
+  };
 
-  
   return (
     <div className=" flex  flex-col items-center justify-center mx-auto">
       <h1 className="text-4xl">Online Code Compiler</h1>
       <div>
-        <label>Language:</label>
+        <label>Language: </label>
         <select
-          // value={language}
-          // onChange={(e) => {
-          //   const shouldSwitch = window.confirm(
-          //     "Are you sure you want to change language? WARNING: Your current code will be lost."
-          //   );
-          //   if (shouldSwitch) {
-          //     setLanguage(e.target.value);
-          //   }
-          // }}
+          value={language}
+          onChange={(e) => {
+            const shouldSwitch = window.confirm(
+              "Are you sure you want to change language? WARNING: Your current code will be lost."
+            );
+            if (shouldSwitch) {
+              setLanguage(e.target.value);
+            }
+          }}
+          className="border-[1px] mt-2 border-black p-1 shadow-md"
         >
           <option value="cpp">C++</option>
           <option value="py">Python</option>
+          <option value="java">Java</option>
+          <option value="js">Javascript</option>
+          <option value="gcc">C</option>
         </select>
       </div>
       <br />
       <div>
-        <button 
-        // onClick={setDefaultLanguage}
-        >Set Default</button>
+        <button
+          onClick={setDefaultLanguage}
+          className="border-2 border-slate-600 p-1 shadow-md"
+        >
+          Set Default
+        </button>
       </div>
       <br />
       <textarea
@@ -49,13 +81,16 @@ function App() {
         className="border-2 border-black"
       ></textarea>
       <br />
-      <button 
-      onClick={handleSubmit}
-      >Submit</button>
+      <button
+        onClick={handleSubmit}
+        className="border-2 border-slate-600 p-1 shadow-lg w-40 bg-slate-400"
+      >
+        Submit
+      </button>
       {/* <p>{status}</p> */}
-      {/* <p>{jobId ? `Job ID: ${jobId}` : ""}</p>
-      <p>{renderTimeDetails()}</p>
-      <p>{output}</p> */}
+      {/* <p>{jobId ? `Job ID: ${jobId}` : ""}</p> */}
+      {/* <p>{renderTimeDetails()}</p> */}
+      <p>{output}</p>
     </div>
   );
 }
