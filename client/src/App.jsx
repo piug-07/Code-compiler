@@ -12,15 +12,18 @@ function App() {
   const [status, setStatus] = useState(null);
   const [jobDetails, setJobDetails] = useState(null);
 
+  useEffect(() => {
+    const defaultLang = localStorage.getItem("default-language") || "cpp";
+    setLanguage(defaultLang);
+  }, []);
+  
+  let pollInterval;
+
   const handleSubmit = async (e) => {
-    // e.preventDefault();
     const payload = {
       language,
       code,
     };
-
-    let pollInterval;
-
     try {
       setOutput("");
       setStatus(null);
