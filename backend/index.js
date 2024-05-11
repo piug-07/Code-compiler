@@ -1,5 +1,6 @@
 const express = require('express');
 const { generateFile } = require('./generateFile');
+const { executeCpp } = require('./executeCpp');
 
 
 Port = 3000;
@@ -21,12 +22,19 @@ app.post('/run', async (req, res) => {
     if (code === undefined) {
         return res.status(400).json({ success: false, error: "code are required" });
     }
-    // need to generate a c++ file  
-    const filepath = await generateFile(language, code);
+    try {
+        // need to generate a c++ file  
+        const filepath = await generateFile(language, code);
+        
+        // we need to run the code now and send resp
 
-    // we need to run the code now and send resp
+        const output = await executeCpp(filepath);
+        return res.json({ filepath, output });
+    } catch (error) {
+        return res.status(500).json({ success: false, error });
 
-    return res.json({ filepath });
+    }
+
 
 });
 
