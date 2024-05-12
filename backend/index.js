@@ -3,9 +3,10 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const { generateFile } = require('./generateFile');
 const { addJobToQueue } = require("./jobQueue");
+require('dotenv').config();
 const Job = require("./models/Job");
 mongoose.connect(
-    "mongodb+srv://guptapiyush315:vYWZrmMtHp395W29@real-estate.esrb235.mongodb.net/?retryWrites=true&w=majority",
+    process.env.MONGO_URI,
     {
         dbName: "Online_Compiler",
     }
