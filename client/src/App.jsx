@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
+import stubs from "../stubs.js";
 import moment from "moment";
 import axios from "axios";
 import "./app.css";
@@ -12,6 +13,9 @@ function App() {
   const [status, setStatus] = useState(null);
   const [jobDetails, setJobDetails] = useState(null);
 
+  useEffect(() => {
+    setCode(stubs[language]);
+  }, [language]);
   useEffect(() => {
     console.log(import.meta.env.VITE_BACKEND_URL);
     const defaultLang = localStorage.getItem("default-language") || "cpp";
@@ -34,7 +38,7 @@ function App() {
       if (data.jobId) {
         setJobId(data.jobId);
         setStatus("Submitted.");
-        
+
         // poll here
         pollInterval = setInterval(async () => {
           const { data: statusRes } = await axios.get(

@@ -13,7 +13,7 @@ const executeC = (filepath) => {
     const jobId = path.basename(filepath).split(".")[0];
     const outPath = path.join(outputPath, `${jobId}.out`);
     exec(
-      `gcc "${filepath}" -o "${outPath}" && cd "${outputPath}" && ./${jobId}.out`,
+      `gcc "${filepath}" -o "${outPath}" && cd "${outputPath}" && ${jobId}.out`,
       (error, stdout, stderr) => {
         if (error) {
           reject({ error, stderr });

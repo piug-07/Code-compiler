@@ -14,6 +14,7 @@ jobQueue.process(NUM_WORKERS, async ({ data }) => {
   const jobId = data.id;
 
   const job = await Job.findById(jobId);
+
   if (job === undefined) {
     throw Error(`cannot find Job with id ${jobId}`);
   }
@@ -33,7 +34,7 @@ jobQueue.process(NUM_WORKERS, async ({ data }) => {
       case "java":
         output = await executeJava(job.filepath);
         break;
-      case "gcc":
+      case "c":
         output = await executeC(job.filepath);
         break;
       default:
@@ -59,7 +60,6 @@ jobQueue.process(NUM_WORKERS, async ({ data }) => {
 jobQueue.on("failed", (error) => {
   console.error(error.data.id, error.failedReason);
 });
-
 
 const addJobToQueue = async (jobId) => {
   jobQueue.add({
