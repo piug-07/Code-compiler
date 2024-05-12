@@ -13,7 +13,6 @@ const NUM_WORKERS = 5;
 jobQueue.process(NUM_WORKERS, async ({ data }) => {
   console.log("data:", data);
   const jobId = data.id;
-
   const job = await Job.findById(jobId);
 
   if (job === undefined) {
@@ -56,19 +55,25 @@ jobQueue.process(NUM_WORKERS, async ({ data }) => {
     await job.save();
     throw new Error(JSON.stringify(err));
   }
+});
 
+jobQueue.on("error", (error) => {
+  console.error('Error during job processing:', error);
+});
 
+jobQueue.on("failed", (error) => {
+  console.error(error.data.id, error.failedReason);
 });
 
 
 jobQueue.on("failed", (error) => {
   console.error(error.data.id, error.failedReason);
 });
-
 const addJobToQueue = async (jobId) => {
   jobQueue.add({
     id: jobId,
   });
+  console.log("Job Queue initialized");
 };
 
 module.exports = {

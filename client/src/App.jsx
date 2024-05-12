@@ -4,6 +4,7 @@ import stubs from "../stubs.js";
 import moment from "moment";
 import axios from "axios";
 import "./app.css";
+import Navbar from "./navbar.jsx";
 
 function App() {
   const [code, setCode] = useState("");
@@ -98,62 +99,86 @@ function App() {
     result += `Execution Time: ${diff}s`;
     return result;
   };
+  const datas = renderTimeDetails();
+  console.log("🚀 ~ App ~ datas:", datas);
 
   return (
     <div className=" flex  flex-col items-center justify-center mx-auto">
-      <h1 className="text-4xl">Online Code Compiler</h1>
-      <div>
-        <label>Language: </label>
-        <select
-          value={language}
-          onChange={(e) => {
-            const shouldSwitch = window.confirm(
-              "Are you sure you want to change language? WARNING: Your current code will be lost."
-            );
-            if (shouldSwitch) {
-              setLanguage(e.target.value);
-            }
-          }}
-          className="border-[1px] mt-2 border-black p-1 shadow-md"
-        >
-          <option value="cpp">C++</option>
-          <option value="py">Python</option>
-          <option value="js">Javascript</option>
-          <option value="java">Java</option>
-          <option value="c">C</option>
-          <option value="go">Golang</option>
-        </select>
+      <Navbar />
+      <div className="flex flex-row items-center justify-around bg-white p-4 rounded-md shadow-lg w-full mb-5">
+        <div>
+          <label className="mr-3 text-lg font-serif font-semibold">
+            Language:{" "}
+          </label>
+          <select
+            value={language}
+            onChange={(e) => {
+              const shouldSwitch = window.confirm(
+                "Are you sure you want to change language? WARNING: Your current code will be lost."
+              );
+              if (shouldSwitch) {
+                setLanguage(e.target.value);
+              }
+            }}
+            className="py-2 px-8 inline-flex items-center gap-x-2 text-lg font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none "
+          >
+            <option value="cpp">C++</option>
+            <option value="py">Python</option>
+            <option value="js">Javascript</option>
+            <option value="java">Java</option>
+            <option value="c">C</option>
+            <option value="go">Golang</option>
+          </select>
+        </div>
+
+        <div>
+          <button
+            onClick={setDefaultLanguage}
+            className="py-3 px-4 w-40 text-center inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-teal-100 text-teal-800 hover:bg-teal-200 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-teal-400 dark:text-teal-500 dark:hover:text-teal-600"
+          >
+            <span className="inline-block w-full">Set Default</span>
+          </button>
+        </div>
       </div>
       <br />
-      <div>
-        <button
-          onClick={setDefaultLanguage}
-          className="border-2 border-slate-600 p-1 shadow-md"
-        >
-          Set Default
-        </button>
+
+      <div className="flex flex-row w-full mx-3">
+        <div className="flex flex-col items-center justify-center w-[50%]">
+          <textarea
+            rows="20"
+            cols="75"
+            value={code}
+            onChange={(e) => {
+              setCode(e.target.value);
+            }}
+            className="border-2 border-gray-300 focus:border-teal-400 hover:border-teal-400 transition duration-300 ease-in-out w-11/12 h-full p-4 rounded-md shadow-lg text-lg font-mono bg-white focus:outline-none "
+          ></textarea>
+
+          <button
+            onClick={handleSubmit}
+            className="group mt-8 relative inline-block overflow-hidden rounded-2xl border-4 border-double border-teal-400 px-14 w-2/4 py-3 font-medium text-teal-400 shadow-lg text-center"
+          >
+            <span className="absolute left-0 top-0 mb-0 flex h-full w-0 translate-x-0 transform bg-teal-400 opacity-90 transition-all duration-300 ease-out group-hover:w-full"></span>
+            <span className="relative group-hover:text-white">
+              {status ? status : "Submit"}
+            </span>
+          </button>
+        </div>
+        <div className="w-[50%] flex flex-col justify-start">
+          <div className="w-full h-[37.5%]">
+            <p>{jobId ? `Job ID: ${jobId}` : ""}</p>
+            <p>{renderTimeDetails()}</p>
+          </div>
+          <div className="w-11/12 h-[50%]">
+            <div className="w-full h-full overflow-auto border-2 border-gray-300 rounded-md shadow-lg text-lg font-mono bg-white">
+              <nav className="flex justify-between items-center px-4 py-2 bg-gray-100 border-b-2 border-gray-300 rounded-t-md">
+                <h1 className="text-xl font-bold">Output:</h1>
+              </nav>
+              <div className="p-4">{output}</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <br />
-      <textarea
-        rows="20"
-        cols="75"
-        value={code}
-        onChange={(e) => {
-          setCode(e.target.value);
-        }}
-        className="border-2 border-black"
-      ></textarea>
-      <br />
-      <button
-        onClick={handleSubmit}
-        className="border-2 border-slate-600 p-1 shadow-lg w-40 bg-slate-400"
-      >
-        Submit
-      </button>
-      <p>{status}</p>
-      <p>{jobId ? `Job ID: ${jobId}` : ""}</p>
-      <p>{renderTimeDetails()}</p>
-      <p>{output}</p>
     </div>
   );
 }
