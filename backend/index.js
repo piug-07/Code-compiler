@@ -40,7 +40,7 @@ app.post('/run', async (req, res) => {
     // need to generate a c++ file  
     const filepath = await generateFile(language, code);
 
-    job = await new Job({ language, filepath }).save();
+    let job = await new Job({ language, filepath }).save();
     const jobId = job["_id"];
     addJobToQueue(jobId);
     // console.log("job:", job);
