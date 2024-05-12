@@ -16,7 +16,7 @@ function App() {
     const defaultLang = localStorage.getItem("default-language") || "cpp";
     setLanguage(defaultLang);
   }, []);
-  
+
   let pollInterval;
 
   const handleSubmit = async (e) => {
@@ -29,17 +29,17 @@ function App() {
       setStatus(null);
       setJobId(null);
       setJobDetails(null);
-      const { data } = await axios.post(`${import.meta.env.VITE_URL}run`, payload);
-      // const { data } = await axios.post("http://localhost:5000/run", payload);
+      // const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}run`, payload);
+      const { data } = await axios.post("http://localhost:5000/run", payload);
       if (data.jobId) {
         setJobId(data.jobId);
         setStatus("Submitted.");
-
+        console.log(import.meta.env.VITE_URL);
         // poll here
         pollInterval = setInterval(async () => {
           const { data: statusRes } = await axios.get(
-            // `http://localhost:5000/status`,
-            `${import.meta.env.VITE_URL}status`,
+            `http://localhost:5000/status`,
+            // `${import.meta.env.VITE_BACKEND_URL}status`,
             {
               params: {
                 id: data.jobId,
