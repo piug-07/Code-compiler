@@ -83,6 +83,22 @@ function App() {
     console.log(`${language} set as default!`);
   };
 
+  const renderTimeDetails = () => {
+    if (!jobDetails) {
+      return "";
+    }
+    let { submittedAt, startedAt, completedAt } = jobDetails;
+    let result = "";
+    submittedAt = moment(submittedAt).toString();
+    result += `Code Submitted At: ${submittedAt}  `;
+    if (!startedAt || !completedAt) return result;
+    const start = moment(startedAt);
+    const end = moment(completedAt);
+    const diff = end.diff(start, "seconds", true);
+    result += `Execution Time: ${diff}s`;
+    return result;
+  };
+
   return (
     <div className=" flex  flex-col items-center justify-center mx-auto">
       <h1 className="text-4xl">Online Code Compiler</h1>
@@ -105,6 +121,7 @@ function App() {
           <option value="js">Javascript</option>
           <option value="java">Java</option>
           <option value="c">C</option>
+          <option value="go">Golang</option>
         </select>
       </div>
       <br />
@@ -135,7 +152,7 @@ function App() {
       </button>
       <p>{status}</p>
       <p>{jobId ? `Job ID: ${jobId}` : ""}</p>
-      {/* <p>{renderTimeDetails()}</p> */}
+      <p>{renderTimeDetails()}</p>
       <p>{output}</p>
     </div>
   );

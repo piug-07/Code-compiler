@@ -5,6 +5,7 @@ const { executeJs } = require("./executeJs");
 const { executePy } = require("./executePy");
 const { executeC } = require("./executegcc");
 const { executeJava } = require("./executeJava");
+const { executeGo } = require("./executego");
 
 const jobQueue = new Queue("job-runner-queue");
 const NUM_WORKERS = 5;
@@ -36,6 +37,9 @@ jobQueue.process(NUM_WORKERS, async ({ data }) => {
         break;
       case "c":
         output = await executeC(job.filepath);
+        break;
+      case "go":
+        output = await executeGo(job.filepath);
         break;
       default:
         throw new Error("Unsupported language");

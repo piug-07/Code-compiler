@@ -27,6 +27,14 @@ stubs.java = `class Code
         System.out.println("My First Java Program.");
     }
 }`;
+stubs.go = `package main
+ 
+import "fmt";
+ 
+func main() {
+ 
+    fmt.Println("!... Hello World ...!")
+}`;
 
 stubs.py = `print("Hello world!")`;
 
