@@ -18,11 +18,17 @@ const Navbar = () => {
         </h1>
       </div>
       <div className="hidden lg:flex items-center">
-        <a href="#" className="text-black mx-4 lg:mx-8">
-          Cricket
+        <a
+          href="https://github.com/piug-07"
+          className="text-black mx-4 lg:mx-8"
+        >
+          Github
         </a>
-        <a href="#" className="text-black mx-4 lg:mx-8">
-          Football
+        <a
+          href="https://shrutii-05.github.io/Live_CodeEditor"
+          className="text-black mx-4 lg:mx-8"
+        >
+          Web Editor
         </a>
       </div>
       <div className="lg:hidden">
@@ -43,20 +49,17 @@ const Navbar = () => {
         </svg>
         {isOpen && (
           <div className="absolute top-14 right-4 bg-white p-4 rounded-md shadow-lg z-10">
-            <a href="#" className="block text-black my-2">
-              Cricket
+            <a
+              href="https://github.com/piug-07"
+              className="block text-black my-2"
+            >
+              Github
             </a>
-            <a href="#" className="block text-black my-2">
-              Football
-            </a>
-            <a href="#" className="block text-black my-2">
-              Casino
-            </a>
-            <a href="#" className="block text-black my-2">
-              Favourites
-            </a>
-            <a href="#" className="block text-black my-2">
-              <b className="text-lg">Sign Up</b>
+            <a
+              href="https://shrutii-05.github.io/Live_CodeEditor/"
+              className="block text-black my-2"
+            >
+              Web Editor
             </a>
           </div>
         )}

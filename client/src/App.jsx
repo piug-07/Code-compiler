@@ -120,7 +120,7 @@ function App() {
                 setLanguage(e.target.value);
               }
             }}
-            className="py-2 px-8 inline-flex items-center gap-x-2 text-lg font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none "
+            className="py-2 px-8 inline-flex items-center gap-x-2 text-lg font-medium rounded-lg border border-gray-200 bg-white text-teal-500 shadow-sm  disabled:opacity-50 disabled:pointer-events-none outline-none hover:border-teal-400"
           >
             <option value="cpp">C++</option>
             <option value="py">Python</option>
@@ -134,7 +134,7 @@ function App() {
         <div>
           <button
             onClick={setDefaultLanguage}
-            className="py-3 px-4 w-40 text-center inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-teal-100 text-teal-800 hover:bg-teal-200 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-teal-400 dark:text-teal-500 dark:hover:text-teal-600"
+            className="py-3 px-4 w-40 text-center inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border text-teal-800 hover:border-teal-400 disabled:opacity-50 disabled:pointer-events-none bg-white translate-x-0 transform hover:bg-teal-200 opacity-90 transition-all duration-300 ease-out group-hover:w-full border-teal-400"
           >
             <span className="inline-block w-full">Set Default</span>
           </button>
@@ -151,7 +151,11 @@ function App() {
             onChange={(e) => {
               setCode(e.target.value);
             }}
-            className="border-2 border-gray-300 focus:border-teal-400 hover:border-teal-400 transition duration-300 ease-in-out w-11/12 h-full p-4 rounded-md shadow-lg text-lg font-mono bg-white focus:outline-none "
+            className="border-2 border-gray-300 focus:border-teal-400 hover:border-teal-400 transition duration-300 ease-in-out w-11/12 h-full p-4 rounded-md shadow-lg text-lg font-mono bg-white focus:outline-none overflow-auto"
+            style={{
+              scrollbarWidth: "thin",
+              scrollBehavior: "smooth",
+            }}
           ></textarea>
 
           <button
@@ -165,10 +169,21 @@ function App() {
           </button>
         </div>
         <div className="w-[50%] flex flex-col justify-start">
-          <div className="w-full h-[37.5%]">
-            <p>{jobId ? `Job ID: ${jobId}` : ""}</p>
-            <p>{renderTimeDetails()}</p>
+          <div className="flex items-center justify-center mb-8 w-11/12 h-[33%] border-2 border-gray-300 rounded-md shadow-md p-4 text-lg font-mono ">
+            <div className="flex flex-col items-center justify-center w-full h-full">
+              <div className="border-b-2 border-gray-300 mb-4 p-2 w-full text-center">
+                <p className="text-blue-500 text-lg font-medium">
+                  {jobId ? `Job ID: ${jobId}` : "No Job ID"}
+                </p>
+              </div>
+              <div className="p-2 text-center ">
+                <p className="text-gray-700 font-mono text-lg font-medium">
+                  {renderTimeDetails()}
+                </p>
+              </div>
+            </div>
           </div>
+
           <div className="w-11/12 h-[50%]">
             <div className="w-full h-full overflow-auto border-2 border-gray-300 rounded-md shadow-lg text-lg font-mono bg-white">
               <nav className="flex justify-between items-center px-4 py-2 bg-gray-100 border-b-2 border-gray-300 rounded-t-md">
