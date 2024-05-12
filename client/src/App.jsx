@@ -38,7 +38,8 @@ function App() {
         // poll here
         pollInterval = setInterval(async () => {
           const { data: statusRes } = await axios.get(
-            `http://localhost:5000/status`,
+            // `http://localhost:5000/status`,
+            `${import.meta.env.VITE_URL}status`,
             {
               params: {
                 id: data.jobId,
